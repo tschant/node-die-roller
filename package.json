@@ -1,0 +1,41 @@
+{
+	"name": "node-die-roller",
+	"version": "0.1.0",
+	"description": "DnD 5e node based dice roller",
+	"main": "index.js",
+	"scripts": {
+		"roll": "roll-d",
+		"test": "ava --verbose",
+		"coverage": "nyc ava --verbose"
+	},
+	"bin": {
+		"roll-d": "./index.js"
+	},
+	"author": "tschant",
+	"license": "ISC",
+	"dependencies": {
+		"chalk": "^2.4.2",
+		"meow": "^5.0.0",
+		"random": "^2.1.1"
+	},
+	"devDependencies": {
+		"ava": "^2.1.0",
+		"nyc": "^14.1.1"
+	},
+	"repository": {},
+	"bugs": {},
+	"ava": {
+		"files": [
+			"src/*.spec.js"
+		],
+		"concurrency": 4,
+		"failFast": true,
+		"modules": true,
+		"require": [],
+		"babel": {
+			"testOptions": {
+				"babelrc": true
+			}
+		}
+	}
+}
