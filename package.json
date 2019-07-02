@@ -4,7 +4,7 @@
 	"description": "DnD 5e node based dice roller",
 	"main": "index.js",
 	"scripts": {
-		"roll": "roll-d",
+		"roll": "./index.js",
 		"test": "ava --verbose",
 		"coverage": "nyc ava --verbose"
 	},
@@ -15,6 +15,7 @@
 	"license": "ISC",
 	"dependencies": {
 		"chalk": "^2.4.2",
+		"googleapis": "^39.2.0",
 		"meow": "^5.0.0",
 		"random": "^2.1.1"
 	},
