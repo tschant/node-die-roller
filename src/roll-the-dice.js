@@ -37,7 +37,16 @@ function rollA20(primaryRoll, additionalRoll, adv, dis, halfling) {
 	return primaryRoll;
 }
 
-function rollTheDice({ dice, count }, { crit = false, critDouble = false, halfling = false, gwf = false, adv = false, dis = false, debug = false } = {}) {
+function rollTheDice({ dice, count }, {
+		crit = false,
+		critDouble = false,
+		halfling = false,
+		gwf = false,
+		adv = false,
+		dis = false,
+		newChar = false,
+		debug = false
+	} = {}) {
 	isDebug = debug;
 	if (dice) {
 		debugLog(`###################	${chalk.underline.italic(count + 'd' + dice)}	####################`);

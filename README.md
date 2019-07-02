@@ -13,15 +13,18 @@
    --critDoulbe  critical, double the result
    --adv, -a  has advantage
    --dis, -d  has disadvantage
+   --newChar, -n  generate a new stat block for character
 ```
 
 ## Examples
 
 ```
-   $ roll-d.js 1d6
+   $ roll-d 1d6
       Result: 4
-   $ roll-d.js 1d20 -a
+   $ roll-d 1d20 -a
       Result: 16
-   $ roll-d.js 1d10 + 6
+   $ roll-d 1d10 + 6
       Result: 8
+   $ roll-d -n
+      Result: 17,13,16,13,14,9
 ```

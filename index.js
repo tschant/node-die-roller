@@ -4,6 +4,7 @@ const chalk = require('chalk');
 const { parseDice } = require('./src/parse-dice');
 const { rollTheDice } = require('./src/roll-the-dice');
 const { rollTheDicePlot } = require('./src/roll-the-dice.freq');
+const { genNewCharStatBlock } = require('./src/gen-new-char-stat-block');
 // eslint-disable-next-line no-console
 const log = console.log;
 
@@ -18,6 +19,7 @@ const cli = meow(`
        --critDoulbe  critical, double the result
        --adv, -a  has advantage
        --dis, -d  has disadvantage
+       --newChar, -n  generate a new stat block for character
 
     Examples
        $ roll-d.js 1d6
@@ -26,6 +28,8 @@ const cli = meow(`
        ${chalk.underline('Result: ' + chalk.yellow('16'))}
        $ roll-d.js 1d10 + 6
        ${chalk.underline('Result: ' + chalk.yellow('8'))}
+       $ roll-d.js -n
+	   ${chalk.underline('Result: ' + chalk.yellow('17,13,16,13,14,9'))}
 `, {
 	flags: {
 		gwf: {
@@ -50,6 +54,10 @@ const cli = meow(`
 		dis: {
 			type: 'boolean',
 			alias: 'd'
+		},
+		newChar: {
+			type: 'boolean',
+			alias: 'n'
 		},
 		debug: {
 			type: 'boolean'
@@ -88,6 +96,8 @@ if (cli.input.length) {
 	} else {
 		roll(cli.input.join('').replace(/\s/, ''), cli.flags);
 	}
+} else if (cli.flags.newChar) {
+	log(chalk.bold.underline(`Result:${chalk.reset.bold.yellow(' ' + genNewCharStatBlock(cli.flags))}`));
 } else {
 	cli.showHelp();
 }

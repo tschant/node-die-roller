@@ -1,6 +1,6 @@
 const test = require('ava');
 const {rollTheDice} = require('./roll-the-dice');
-const NUMBER_OF_ROLLS = 1000;
+const NUMBER_OF_ROLLS = 10000;
 
 function testDiceRoller(numberOfRolls, dice, rollOptions) {
 	test(`Check ${numberOfRolls} rolls that d${dice} is within the range${rollOptions ? ', options: ' + JSON.stringify(rollOptions) : ''}`, t => {
