@@ -59,6 +59,21 @@ async function characterSaves() {
 	return statBlock;
 }
 
+async function characterInitiative() {
+	let initiative = 0;
+	const configString = await fetchCredentialJson();
+	// Authorize a client with credentials, then call the Google Sheets API.
+	const config = JSON.parse(configString);
+	const oAuth2Client = await authorize(config);
+
+	const rows = await pullStatsFromSheets(oAuth2Client, config.sheet_id, 'Front!AX12:AZ12');
+	if (rows.length) {
+		initiative = rows[0];
+	}
+	return initiative;
+}
+
 exports.characterStats = characterStats;
 exports.characterSkillStats = characterSkillStats;
 exports.characterSaves = characterSaves;
+exports.characterInitiative = characterInitiative;

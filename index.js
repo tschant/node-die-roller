@@ -6,9 +6,16 @@ const { parseDice } = require('./src/parse-dice');
 const { rollTheDice } = require('./src/roll-the-dice');
 const { rollTheDicePlot } = require('./src/roll-the-dice.freq');
 const { genNewCharStatBlock } = require('./src/gen-new-char-stat-block');
-const { characterStats, characterSaves, characterSkillStats } = require('./src/google-sheets/character-stats');
+const {
+	characterStats,
+	characterSaves,
+	characterSkillStats,
+	characterInitiative
+} = require('./src/google-sheets/character-stats');
 // eslint-disable-next-line no-console
 const log = console.log;
+// eslint-disable-next-line no-console
+const debugLog = toOutput => console.debug(chalk.dim(toOutput));
 
 const cli = meow(`
     Usage
@@ -34,6 +41,8 @@ const cli = meow(`
        ${chalk.underline('Result: ' + chalk.yellow('17,13,16,13,14,9'))}
 
     ${chalk.bold('These require a google.config.json within ./src/google-sheets/ and a copy of ' + chalk.underline('https://docs.google.com/spreadsheets/d/1qw3DMBK4OgF0jai8GDRtKKXZ8oZmzwwO8phXRD5nC1k/edit#gid=1538485300'))}
+       Initiative:
+          $ ./index.js init
        Saves: ${stats.join(', ')}
           $ ./index.js str save
        Checks: ${stats.join(', ')}
@@ -87,6 +96,7 @@ function plotRoll(input, flags) {
 			rollTheDicePlot(die, flags);
 		});
 }
+
 function roll(input, flags) {
 	const final = input
 		.split(/([+-]?\d*d\d+)/g)
@@ -109,12 +119,21 @@ if (cli.input.length) {
 			roll(input, cli.flags);
 		}
 	} else {
-		const isSave = /save/.test(cli.input);
-		if (isSave) {
+		// These require access to a google sheet
+		if (/save/.test(cli.input)) {
 			characterSaves().then(stats => {
 				const ability = /str|dex|con|int|wis|cha/.exec(cli.input);
 				const { mod } = stats[ability[0]];
-				roll(`1d20${mod}`, cli.flags);
+
+				const input = `1d20${mod}`;
+				cli.flags.debug && debugLog(chalk.bold(`>>> Rolling: ${input}`));
+				roll(input, cli.flags);
+			});
+		} else if (/init/.test(cli.input)) {
+			characterInitiative().then(init => {
+				const input = `1d20${init}`;
+				cli.flags.debug && debugLog(chalk.bold(`>>> Rolling: ${input}`));
+				roll(input, cli.flags);
 			});
 		} else {
 			const stat = new RegExp(stats.join('|')).exec(cli.input);
@@ -125,7 +144,10 @@ if (cli.input.length) {
 					characterStats()
 				]).then(([charAbilities, charStats]) => {
 					let mod = stat ? charStats[stat[0]].mod : charAbilities[ability[0]].mod;
-					roll(`1d20${mod}`, cli.flags);
+
+					const input = `1d20${mod}`;
+					cli.flags.debug && debugLog(chalk.bold(`>>> Rolling: ${input}`));
+					roll(input, cli.flags);
 				});
 			}
 		}
