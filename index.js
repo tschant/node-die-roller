@@ -1,17 +1,18 @@
 #!/usr/bin/env node
 const meow = require('meow');
 const chalk = require('chalk');
+const { stats, abilities } = require('./dnd-5e-info.json');
 const { parseDice } = require('./src/parse-dice');
 const { rollTheDice } = require('./src/roll-the-dice');
 const { rollTheDicePlot } = require('./src/roll-the-dice.freq');
 const { genNewCharStatBlock } = require('./src/gen-new-char-stat-block');
-const { characterStats, characterSaves } = require('./src/google-sheets/character-stats');
+const { characterStats, characterSaves, characterSkillStats } = require('./src/google-sheets/character-stats');
 // eslint-disable-next-line no-console
 const log = console.log;
 
 const cli = meow(`
     Usage
-       $ roll-d <input>
+       $ ./index.js <input>
 
     Options
        --gwf, -g  great weapon fighter
@@ -23,20 +24,22 @@ const cli = meow(`
        --newChar, -n  generate a new stat block for character
 
     Examples
-       $ roll-d.js 1d6
+       $ ./index.js 1d6
        ${chalk.underline('Result: ' + chalk.yellow('4'))}
-       $ roll-d.js 1d20 -a
+       $ ./index.js 1d20 -a
        ${chalk.underline('Result: ' + chalk.yellow('16'))}
-       $ roll-d.js 1d10 + 6
+       $ ./index.js 1d10 + 6
        ${chalk.underline('Result: ' + chalk.yellow('8'))}
-       $ roll-d.js -n
+       $ ./index.js -n
        ${chalk.underline('Result: ' + chalk.yellow('17,13,16,13,14,9'))}
 
-    ${chalk.bold('These require a google.config.json within google-sheets and a copy of ' + chalk.underline('https://docs.google.com/spreadsheets/d/1qw3DMBK4OgF0jai8GDRtKKXZ8oZmzwwO8phXRD5nC1k/edit#gid=1538485300'))}
-       $ roll-d.js cha save
-       ${chalk.underline('Result: ' + chalk.yellow('20'))}
-       $ roll-d.js str check
-       ${chalk.underline('Result: ' + chalk.yellow('17'))}
+    ${chalk.bold('These require a google.config.json within ./src/google-sheets/ and a copy of ' + chalk.underline('https://docs.google.com/spreadsheets/d/1qw3DMBK4OgF0jai8GDRtKKXZ8oZmzwwO8phXRD5nC1k/edit#gid=1538485300'))}
+       Saves: ${stats.join(', ')}
+          $ ./index.js str save
+       Checks: ${stats.join(', ')}
+       Checks: ${abilities.join(', ')}
+          $ ./index.js str check
+          $ ./index.js perception
 `, {
 	flags: {
 		gwf: {
@@ -114,12 +117,17 @@ if (cli.input.length) {
 				roll(`1d20${mod}`, cli.flags);
 			});
 		} else {
-			// Assume ability check
-			characterStats().then(stats => {
-				const ability = /str|dex|con|int|wis|cha/.exec(cli.input);
-				const {mod} = stats[ability[0]];
-				roll(`1d20${mod}`, cli.flags);
-			});
+			const stat = new RegExp(stats.join('|')).exec(cli.input);
+			const ability = new RegExp(abilities.join('|')).exec(cli.input);
+			if (stat || ability) {
+				Promise.all([
+					characterSkillStats(),
+					characterStats()
+				]).then(([charAbilities, charStats]) => {
+					let mod = stat ? charStats[stat[0]].mod : charAbilities[ability[0]].mod;
+					roll(`1d20${mod}`, cli.flags);
+				});
+			}
 		}
 	}
 } else if (cli.flags.newChar) {

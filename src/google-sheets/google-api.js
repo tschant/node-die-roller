@@ -3,6 +3,8 @@ const path = require('path');
 const readline = require('readline');
 const { google } = require('googleapis');
 
+// eslint-disable-next-line no-console
+const log = console.log;
 // If modifying these scopes, delete token.json.
 const SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly'];
 // The file token.json stores the user's access and refresh tokens, and is
@@ -55,7 +57,7 @@ function getNewToken(oAuth2Client) {
 		access_type: 'offline',
 		scope: SCOPES,
 	});
-	console.log('Authorize this app by visiting this url:', authUrl);
+	log('Authorize this app by visiting this url:', authUrl);
 	const rl = readline.createInterface({
 		input: process.stdin,
 		output: process.stdout,
@@ -72,8 +74,8 @@ function getNewToken(oAuth2Client) {
 				fs.writeFile(TOKEN_PATH, JSON.stringify(token), (err) => {
 					if (err) {
 						return reject(err);
-					};
-					console.log('Token stored to', TOKEN_PATH);
+					}
+					log('Token stored to', TOKEN_PATH);
 				});
 				resolve(oAuth2Client);
 			});

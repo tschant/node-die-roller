@@ -1,6 +1,26 @@
-const { fetchCredentialJson, authorize, pullStatsFromSheets } = require("./google-api");
+const { fetchCredentialJson, authorize, pullStatsFromSheets } = require('./google-api');
 
-exports.characterStats = async () => {
+async function characterSkillStats() {
+	let statBlock = {};
+	const configString = await fetchCredentialJson();
+	// Authorize a client with credentials, then call the Google Sheets API.
+	const config = JSON.parse(configString);
+	const oAuth2Client = await authorize(config);
+
+	const rows = await pullStatsFromSheets(oAuth2Client, config.sheet_id, 'Front!B20:M37');
+	if (rows.length) {
+		statBlock = rows.reduce((stats, row) => {
+			const ability = /^[a-zA-Z]+(?= .*$)/.exec(row[3]);
+			stats[ability[0].toLowerCase()] = {
+				mod: row[0].trim()
+			};
+			return stats;
+		}, {});
+	}
+	return statBlock;
+}
+
+async function characterStats() {
 	let statBlock = {};
 	const configString = await fetchCredentialJson();
 	// Authorize a client with credentials, then call the Google Sheets API.
@@ -18,9 +38,9 @@ exports.characterStats = async () => {
 		}, {});
 	}
 	return statBlock;
-};
+}
 
-exports.characterSaves = async () => {
+async function characterSaves() {
 	let statBlock = {};
 	const configString = await fetchCredentialJson();
 	// Authorize a client with credentials, then call the Google Sheets API.
@@ -37,4 +57,8 @@ exports.characterSaves = async () => {
 		}, {});
 	}
 	return statBlock;
-};
+}
+
+exports.characterStats = characterStats;
+exports.characterSkillStats = characterSkillStats;
+exports.characterSaves = characterSaves;

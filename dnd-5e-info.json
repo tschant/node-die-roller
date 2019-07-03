@@ -1,0 +1,30 @@
+{
+	"stats": [
+		"str",
+		"dex",
+		"con",
+		"int",
+		"wis",
+		"cha"
+	],
+	"abilities": [
+		"acrobatics",
+		"animal",
+		"arcana",
+		"athletics",
+		"deception",
+		"history",
+		"insight",
+		"intimidation",
+		"investigation",
+		"medicine",
+		"nature",
+		"perception",
+		"performance",
+		"persuasion",
+		"religion",
+		"sleight",
+		"stealth",
+		"survival"
+	]
+}

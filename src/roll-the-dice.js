@@ -8,7 +8,7 @@ const rollADice = (dice) => random.int(1, dice);
 function gwfRoll(primary, dice) {
 	if (primary <= 2) {
 		const secondary = rollADice(dice);
-		debugLog(chalk.italic(`re-rolling 1&2\'s:	${primary} to ${secondary}`));
+		debugLog(chalk.italic(`re-rolling 1&2's:	${primary} to ${secondary}`));
 		return secondary;
 	}
 	return primary;
@@ -18,12 +18,12 @@ function rollA20(primaryRoll, additionalRoll, adv, dis, halfling) {
 	if (halfling) {
 		if (primaryRoll === 1) {
 			const reRoll = rollADice(20);
-			debugLog(chalk.italic(`re-rolling 1\'s:	${primaryRoll} to ${reRoll}`));
+			debugLog(chalk.italic(`re-rolling 1's:	${primaryRoll} to ${reRoll}`));
 			primaryRoll = reRoll;
 		}
 		if (additionalRoll === 1) {
 			const reRoll = rollADice(20);
-			debugLog(chalk.italic(`re-rolling 1\'s:	${primaryRoll} to ${reRoll}`));
+			debugLog(chalk.italic(`re-rolling 1's:	${primaryRoll} to ${reRoll}`));
 			additionalRoll = reRoll;
 		}
 	}
@@ -38,15 +38,14 @@ function rollA20(primaryRoll, additionalRoll, adv, dis, halfling) {
 }
 
 function rollTheDice({ dice, count }, {
-		crit = false,
-		critDouble = false,
-		halfling = false,
-		gwf = false,
-		adv = false,
-		dis = false,
-		newChar = false,
-		debug = false
-	} = {}) {
+	crit = false,
+	critDouble = false,
+	halfling = false,
+	gwf = false,
+	adv = false,
+	dis = false,
+	debug = false
+} = {}) {
 	isDebug = debug;
 	if (dice) {
 		debugLog(`###################	${chalk.underline.italic(count + 'd' + dice)}	####################`);

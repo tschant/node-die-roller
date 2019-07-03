@@ -7,14 +7,7 @@ const rollADice = (dice) => random.int(1, dice);
 
 const DICE = 6;
 const COUNT = 4;
-const STATS = [
-	'STR',
-	'DEX',
-	'CON',
-	'INT',
-	'WIS',
-	'CHR',
-];
+const STATS = require('../dnd-5e-info.json').stats;
 
 function createStatBlock() {
 	let result = [];
@@ -31,7 +24,7 @@ function createStatBlock() {
 
 function genNewCharStatBlock(flags) {
 	isDebug = flags.debug;
-	return STATS.map(_ => {
+	return STATS.map(() => {
 		return createStatBlock();
 	});
 }

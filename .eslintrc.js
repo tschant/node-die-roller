@@ -1,12 +1,15 @@
-{
+'use strict';
+
+module.exports = {
 	"parserOptions": {
-		"ecmaFeatures": {
-			"jsx": true,
-			"modules": true
-		},
-		"ecmaVersion": 7,
-		"sourceType": "module"
+		ecmaVersion: 2019,
 	},
+	"env":{
+		"commonjs": true,
+		"es6": true,
+		"node": true
+	},
+	"extends": "eslint:recommended",
 	"rules": {
 		"arrow-spacing": [
 			2,
@@ -190,9 +193,5 @@
 		],
 		"use-isnan": 2,
 		"valid-typeof": 2
-	},
-	"env": {
-		"es6": true,
-		"node": true
 	}
 }

@@ -31,7 +31,16 @@
 
 ## Google Sheets based rolls:
 
-These rolles require a `google.config.json` within google-sheets and a copy of: [5E D&D Character Sheet (Tintagel) v2.5](https://docs.google.com/spreadsheets/d/1qw3DMBK4OgF0jai8GDRtKKXZ8oZmzwwO8phXRD5nC1k/edit#gid=1538485300)
+These require a google.config.json within ./src/google-sheets and a copy of https://docs.google.com/spreadsheets/d/1qw3DMBK4OgF0jai8GDRtKKXZ8oZmzwwO8phXRD5nC1k/edit#gid=1538485300
+
+```
+     Saves: str, dex, con, int, wis, cha
+        $ ./index.js str save
+     Checks: str, dex, con, int, wis, cha
+     Checks: acrobatics, animal, arcana, athletics, deception, history, insight, intimidation, investigation, medicine, nature, perception, performance, persuasion, religion, sleight, stealth, survival
+        $ ./index.js str check
+        $ ./index.js perception
+```
 
 Will need to configure Google Sheets API: [Google API Console](https://console.developers.google.com/apis/dashboard?project=quickstart-1562099832474&authuser=0)
 

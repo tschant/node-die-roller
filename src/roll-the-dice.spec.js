@@ -4,7 +4,7 @@ const NUMBER_OF_ROLLS = 10000;
 
 function testDiceRoller(numberOfRolls, dice, rollOptions) {
 	test(`Check ${numberOfRolls} rolls that d${dice} is within the range${rollOptions ? ', options: ' + JSON.stringify(rollOptions) : ''}`, t => {
-		const rollToCount = [...new Array(numberOfRolls)].reduce((mapOfValues, _x, i) => {
+		const rollToCount = [...new Array(numberOfRolls)].reduce((mapOfValues) => {
 			const roll = rollTheDice({ count: 1, dice: dice }, rollOptions || {});
 			mapOfValues[roll] = mapOfValues[roll] ? mapOfValues[roll] + 1 : 1;
 			return mapOfValues;
