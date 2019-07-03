@@ -2,7 +2,7 @@
 
 ## Usage
 
-   `$ roll-d <input>`
+   `$ ./index.js <input>`
 
 ## Options
 
@@ -19,13 +19,13 @@
 ## Examples
 
 ```
-$ roll-d 1d6
+$ ./index.js 1d6
    Result: 4
-$ roll-d 1d20 -a
+$ ./index.js 1d20 -a
    Result: 16
-$ roll-d 1d10 + 6
+$ ./index.js 1d10 + 6
    Result: 8
-$ roll-d -n
+$ ./index.js -n
    Result: 17,13,16,13,14,9
 ```
 
