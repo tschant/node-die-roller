@@ -34,6 +34,8 @@
 These require a google.config.json within ./src/google-sheets and a copy of https://docs.google.com/spreadsheets/d/1qw3DMBK4OgF0jai8GDRtKKXZ8oZmzwwO8phXRD5nC1k/edit#gid=1538485300
 
 ```
+     Initiative:
+        $ ./index.js init
      Saves: str, dex, con, int, wis, cha
         $ ./index.js str save
      Checks: str, dex, con, int, wis, cha
